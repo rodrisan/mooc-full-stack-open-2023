@@ -5,17 +5,23 @@ const Button = ({ handleClick, text }) => {
   return <button onClick={handleClick}>{text}</button>;
 };
 
-const Statistics = ({props}) => {
+const Statistics = ({ props }) => {
   const { good, neutral, bad, total, average, positive } = props;
   return (
     <>
       <h1>Statistics</h1>
-      <p>Good: {good}</p>
-      <p>Neutral: {neutral}</p>
-      <p>Bad: {bad}</p>
-      <p>All: {total}</p>
-      <p>Average: {average}</p>
-      <p>Positive: {positive}%</p>
+      {total ? (
+        <>
+          <p>Good: {good}</p>
+          <p>Neutral: {neutral}</p>
+          <p>Bad: {bad}</p>
+          <p>All: {total}</p>
+          <p>Average: {average}</p>
+          <p>Positive: {positive}%</p>
+        </>
+      ) : (
+        <p>No feedback received</p>
+      )}
     </>
   );
 };
@@ -41,7 +47,7 @@ const App = () => {
       <Button handleClick={increaseGood} text="good" />
       <Button handleClick={increaseNeutral} text="neutral" />
       <Button handleClick={increaseBad} text="bad" />
-      <Statistics props={{good, neutral, bad, total, average, positive}} />
+      <Statistics props={{ good, neutral, bad, total, average, positive }} />
     </div>
   );
 };
