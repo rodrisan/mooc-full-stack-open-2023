@@ -9,28 +9,33 @@ const Button = ({ handleClick, text }) => {
 const Statistics = ({ props }) => {
   const { good, neutral, bad, total, average, positive } = props;
   return (
-    <>
-      <h1>Statistics</h1>
-      {total ? (
-        <>
-          <StatisticLine text="Good" value={good} />
-          <StatisticLine text="Neutral" value={neutral} />
-          <StatisticLine text="Bad" value={bad} />
-          <StatisticLine text="All" value={total} />
-          <StatisticLine text="Average" value={average} />
-          <StatisticLine text="Positive" value={`${positive}%`} />
-        </>
-      ) : (
-        <p>No feedback received</p>
-      )}
-    </>
+    <table>
+      <thead>
+        <StatisticLine text={<h1>Statistics</h1>} value={""} />
+      </thead>
+      <tbody>
+        {total ? (
+          <>
+            <StatisticLine text="Good" value={good} />
+            <StatisticLine text="Neutral" value={neutral} />
+            <StatisticLine text="Bad" value={bad} />
+            <StatisticLine text="All" value={total} />
+            <StatisticLine text="Average" value={average} />
+            <StatisticLine text="Positive" value={`${positive}%`} />
+          </>
+        ) : (
+          <StatisticLine text="No feedback received" value={""} />
+        )}
+      </tbody>
+    </table>
   );
 };
 
 const StatisticLine = ({ text, value }) => (
-  <p>
-    {text}: {value}
-  </p>
+  <tr>
+    <td>{text}</td>
+    <td>{value}</td>
+  </tr>
 );
 
 const App = () => {
