@@ -5,9 +5,43 @@ const Button = ({ handleClick, text }) => (
   <button onClick={handleClick}>{text}</button>
 );
 
+const Anecdote = ({ anecdote, votes }) => (
+  <>
+    <div>{anecdote}</div>
+    <div>has {votes} votes</div>
+  </>
+);
+
+const AnecdoteOfTheDay = ({ anecdote, votes, handleVote, handleNext }) => (
+  <>
+    <h1>Anecdote of the day</h1>
+    <Anecdote anecdote={anecdote} votes={votes} />
+    <Button handleClick={handleVote} text="Vote" />
+    <Button handleClick={handleNext} text="Next anecdote" />
+  </>
+);
+
+const AnecdoteMostVoted = ({ anecdote, votes }) => {
+  return (
+    <>
+      <h1>Anecdote with most votes</h1>
+      {votes ? (
+        <div>
+          <p>{anecdote}</p>
+          <p>Has {votes} votes</p>
+        </div>
+      ) : (
+        <p>No votes given</p>
+      )}
+    </>
+  );
+};
+
 const App = (props) => {
   const [selected, setSelected] = useState(0);
   const [votes, setVotes] = useState(Array(anecdotes.length).fill(0));
+  const mostVoted = Math.max(...votes);
+  const mostVotedAnecdote = anecdotes[votes.indexOf(mostVoted)];
 
   const handleNext = () => {
     setSelected(generateRandomIndex(anecdotes));
@@ -21,10 +55,13 @@ const App = (props) => {
 
   return (
     <>
-      <div>{props.anecdotes[selected]}</div>
-      <div>has {votes[selected]} votes</div>
-      <Button handleClick={handleVote} text="Vote" />
-      <Button handleClick={handleNext} text="Next anecdote" />
+      <AnecdoteOfTheDay
+        anecdote={props.anecdotes[selected]}
+        votes={votes[selected]}
+        handleNext={handleNext}
+        handleVote={handleVote}
+      />
+      <AnecdoteMostVoted anecdote={mostVotedAnecdote} votes={mostVoted} />
     </>
   );
 };
