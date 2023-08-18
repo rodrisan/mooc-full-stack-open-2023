@@ -3,6 +3,7 @@ import React, { useState } from "react";
 const App = () => {
   const [persons, setPersons] = useState([{ name: "Arto Hellas" }]);
   const [newName, setNewName] = useState("");
+  const [newPhoneNumber, setNewPhoneNumber] = useState("");
   const NOT_EXISTS = -1;
 
   const addPerson = (event) => {
@@ -10,11 +11,13 @@ const App = () => {
     if (!personExists()) {
       const personObject = {
         name: newName,
+        phoneNumber: newPhoneNumber,
         id: persons.length + 1,
       };
 
       setPersons(persons.concat(personObject));
       setNewName("");
+      setNewPhoneNumber("");
     }
   };
 
@@ -30,9 +33,12 @@ const App = () => {
     return persons.findIndex((person) => person.name === name);
   };
 
-  const handlePersonChange = (event) => {
-    console.log(event.target.value);
+  const handleNewName = (event) => {
     setNewName(event.target.value);
+  };
+
+  const handleNewPhoneNumber = (event) => {
+    setNewPhoneNumber(event.target.value);
   };
 
   return (
@@ -40,7 +46,11 @@ const App = () => {
       <h2>Phonebook</h2>
       <form onSubmit={addPerson}>
         <div>
-          name: <input value={newName} onChange={handlePersonChange} />
+          name: <input value={newName} onChange={handleNewName} />
+        </div>
+        <div>
+          number:{" "}
+          <input type="tel" value={newPhoneNumber} onChange={handleNewPhoneNumber} />
         </div>
         <div>
           <button type="submit">add</button>
@@ -48,7 +58,7 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       {persons.map((person, index) => (
-        <p key={`${person.name}${index}`}>{person.name}</p>
+        <p key={`${person.name}${index}`}>{person.name} {person.phoneNumber}</p>
       ))}
     </div>
   );
