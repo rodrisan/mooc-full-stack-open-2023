@@ -3,16 +3,31 @@ import React, { useState } from "react";
 const App = () => {
   const [persons, setPersons] = useState([{ name: "Arto Hellas" }]);
   const [newName, setNewName] = useState("");
+  const NOT_EXISTS = -1;
 
   const addPerson = (event) => {
     event.preventDefault();
-    const personObject = {
-      name: newName,
-      id: persons.length + 1,
-    };
+    if (!personExists()) {
+      const personObject = {
+        name: newName,
+        id: persons.length + 1,
+      };
 
-    setPersons(persons.concat(personObject));
-    setNewName("");
+      setPersons(persons.concat(personObject));
+      setNewName("");
+    }
+  };
+
+  const personExists = () => {
+    if (findPerson(newName) !== NOT_EXISTS) {
+      alert(`${newName} is already added to phonebook`);
+      return true;
+    }
+    return false;
+  };
+
+  const findPerson = (name) => {
+    return persons.findIndex((person) => person.name === name);
   };
 
   const handlePersonChange = (event) => {
