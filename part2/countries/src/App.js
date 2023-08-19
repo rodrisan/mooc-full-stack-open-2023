@@ -18,6 +18,12 @@ function App() {
     setFindCountry(name);
   };
 
+  const showCountry = (commonName) => {
+    setFilteredCountries(
+      countries.filter((country) => country.name.common === commonName)
+    );
+  };
+
   useEffect(() => {
     axios
       .get("https://restcountries.com/v3.1/all")
@@ -79,7 +85,17 @@ function App() {
         {filteredCountries.length > 1 &&
           filteredCountries.length < 10 &&
           filteredCountries.map((country) => {
-            return <p key={country.name.common}>{country.name.common}</p>;
+            return (
+              <p key={country.name.common}>
+                {country.name.common}
+                <button
+                  title="Show"
+                  onClick={() => showCountry(country.name.common)}
+                >
+                  Show
+                </button>
+              </p>
+            );
           })}
         {findCountry && !country && filteredCountries.length > 10 && (
           <p>Too many matches, specify another filter</p>
